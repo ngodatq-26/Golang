@@ -17,7 +17,7 @@ func ConstructDatabase() *gorm.DB {
 }
 
 const DB_USERNAME = "root"
-const DB_PASSWORD = "root"
+const DB_PASSWORD = ""
 const DB_NAME = "yogurt-project"
 const DB_HOST = "localhost"
 const DB_PORT = "3306"

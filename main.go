@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"yogurt-project/pkg/setting"
 	"yogurt-project/router"
 )
 
@@ -10,6 +11,7 @@ func main() {
 	fmt.Println("hello")
 
 	r := router.Setup()
+	setting.SetEnvironmentInit()
 
 	r.LoadHTMLGlob("resources/templates/html/*")
 	r.Static("/css", "resources/templates/css/")

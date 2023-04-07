@@ -10,5 +10,6 @@ func Setup() *gin.Engine {
 	r1 := r.Group("/api/v1/")
 
 	r1.POST("login", api.Login)
+	r1.POST("register", api.Register)
 	return r
 }
