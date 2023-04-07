@@ -4,13 +4,15 @@ import (
 	"fmt"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
-	"yogurt-project/models"
 )
 
 var Db *gorm.DB
 
-func InitDb() *gorm.DB {
+func init() {
 	Db = Connect()
+}
+
+func ConstructDatabase() *gorm.DB {
 	return Db
 }
 
@@ -30,8 +32,6 @@ func Connect() *gorm.DB {
 		fmt.Println("Error Connecting database")
 		return nil
 	}
-
-	db.AutoMigrate(&models.User{})
 
 	return db
 }

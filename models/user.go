@@ -8,66 +8,56 @@ import (
 )
 
 type User struct {
-	id        int       `gorm:"primary_key;auto_increment" json:"id"`
-	username  string    `gorm:"size:255;not null;unique" json:"username"`
-	password  string    `gorm:"size:255;not null" json:"password"`
-	male      int       `gorm:"size:11;not null" json:"male"`
-	role      int       `gorm:"size:11;not null" json:"role"`
-	phone     string    `gorm:"size:255;not null" json:"phone"`
-	email     string    `gorm:"size:255;not null;unique" json:"email"`
-	address   string    `gorm:"size:255;not null" json:"address"`
-	createdAt time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"createdAt"`
-	updatedAt time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"updatedAt"`
+	ID        int       `gorm:"primary_key;auto_increment" json:"id"`
+	Username  string    `gorm:"size:255;not null;unique" json:"username"`
+	Password  string    `gorm:"size:255;not null" json:"password"`
+	Male      int       `gorm:"size:11;not null" json:"male"`
+	Role      int       `gorm:"size:11;not null" json:"role"`
+	Phone     string    `gorm:"size:255;not null" json:"phone"`
+	Email     string    `gorm:"size:255;not null;unique" json:"email"`
+	Address   string    `gorm:"size:255;not null" json:"address"`
+	CreatedAt time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"createdAt"`
+	UpdatedAt time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"updatedAt"`
 }
 
-// singleton golang
-var instance *User
-
-func init() {
-	instance = &User{}
-}
-
-func construct() *User {
-	return instance
-}
-
-func (user User) CheckAuth(username, password string) (bool, error) {
-
+func CheckAuth(username, password string) (bool, error) {
+	var user User
 	pass, _ := util.HashPassword(password)
 
-	err := database.Db.Where(User{
-		username: username,
-		password: pass,
+	err := database.ConstructDatabase().Where(&User{
+		Username: username,
+		Password: pass,
 	}).First(&user).Error
 
 	if err != nil && err != gorm.ErrRecordNotFound {
 		return false, err
 	}
 
-	if user.id > 0 {
+	if user.ID > 0 {
 		return true, nil
 	}
 
 	return false, nil
 }
 
-func (user User) CreateNew(username, password string) (bool, error) {
-	err := database.Db.Create(User{
-		username:  username,
-		password:  password,
-		male:      0,
-		role:      0,
-		phone:     "0",
-		email:     "not email",
-		createdAt: time.Now(),
-		updatedAt: time.Now(),
+func CreateNew(username, password string) (bool, error) {
+	var user User
+	err := database.ConstructDatabase().Create(&User{
+		Username:  username,
+		Password:  password,
+		Male:      0,
+		Role:      0,
+		Phone:     "0",
+		Email:     "not email",
+		CreatedAt: time.Now(),
+		UpdatedAt: time.Now(),
 	}).First(&user).Error
 
 	if err != nil && err != gorm.ErrInvalidField {
 		return false, err
 	}
 
-	if user.id > 0 {
+	if user.ID > 0 {
 		return true, nil
 	}
 

@@ -6,7 +6,7 @@ import (
 )
 
 func Setup() *gin.Engine {
-	r := gin.Default()
+	r := gin.New()
 	r1 := r.Group("/api/v1/")
 
 	r1.POST("login", api.Login)

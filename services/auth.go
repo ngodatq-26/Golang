@@ -8,9 +8,9 @@ type AuthService struct {
 }
 
 func (a *AuthService) Check() (bool, error) {
-	return models.User{}.CheckAuth(a.Username, a.Password)
+	return models.CheckAuth(a.Username, a.Password)
 }
 
 func (a *AuthService) Create() (bool, error) {
-	return models.User{}.CreateNew(a.Username, a.Password)
+	return models.CreateNew(a.Username, a.Password)
 }

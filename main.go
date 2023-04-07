@@ -9,8 +9,7 @@ import (
 func main() {
 	fmt.Println("hello")
 
-	r := gin.Default()
-	router.Setup()
+	r := router.Setup()
 
 	r.LoadHTMLGlob("resources/templates/html/*")
 	r.Static("/css", "resources/templates/css/")
